@@ -10,7 +10,7 @@ import './App.css';
 
 import {auth} from './firebase/firebase.utils';
 
-class App extends React.component{
+class App extends React.Component{
   constructor(){
     super();
 
@@ -18,7 +18,12 @@ class App extends React.component{
       currentUser: null
     }
   }
-  
+  componentDidMount(){
+    auth.onAuthStateChanged(user => {
+      this.setState({currentUser: user})
+      console.log(user)
+    })
+  }
   render (){
     return (
       <div>
