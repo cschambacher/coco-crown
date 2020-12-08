@@ -8,18 +8,30 @@ import Header from './components/header/header.component'
 
 import './App.css';
 
+import {auth} from './firebase/firebase.utils';
 
-function App() {
-  return (
-    <div>
-      <Header/>
-      <Switch>
-        <Route exact path='/' component={HomePage}/>
-        <Route path='/shop' component={ShopPage}/>
-        <Route path='/signin' component={SignInAndSignUp}/>
-      </Switch>
-    </div>
-  );
+class App extends React.component{
+  constructor(){
+    super();
+
+    this.state = {
+      currentUser: null
+    }
+  }
+  
+  render (){
+    return (
+      <div>
+        <Header/>
+        <Switch>
+          <Route exact path='/' component={HomePage}/>
+          <Route path='/shop' component={ShopPage}/>
+          <Route path='/signin' component={SignInAndSignUp}/>
+        </Switch>
+      </div>
+    );
+    
+  }
 }
 
 export default App;
