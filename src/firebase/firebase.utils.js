@@ -19,9 +19,23 @@ const config = {
 
     // if it exists we query Firestore to see if the document already exists
     // Firestore always returns an object: a reference or a snapshot even if nothing exists
-    const userRef = firestore.doc('users/0898fiuhdie');
+    const userRef = firestore.doc(`users/${userAuth.uid}`);
     const snapShot = await userRef.get();
-    console.log(snapShot)
+    if (!snapShot.exists){
+        const {displayName, email} = userAuth;
+        const createdAt = new Date();
+        try {
+            await userRef.set({
+                displayName,
+                email,
+                createdAt,
+                ...additionalData
+            })
+        } catch (error) {
+           console.log('error creating user', error.message) 
+        }
+    }
+    return userRef
  }
 firebase.initializeApp(config);
 
