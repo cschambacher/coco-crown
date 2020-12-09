@@ -13,7 +13,16 @@ const config = {
     appId: "1:899561976380:web:f664b0478a9d01edaa8939",
     measurementId: "G-DLX8X4PE76"
 };
+ export const createUserProfileDocument = async (userAuth, additionalData)=>{
+    // only do a save if someone is signed in so if we get back a valid object
+    if(!userAuth) return;
 
+    // if it exists we query Firestore to see if the document already exists
+    // Firestore always returns an object: a reference or a snapshot even if nothing exists
+    const userRef = firestore.doc('users/0898fiuhdie');
+    const snapShot = await userRef.get();
+    console.log(snapShot)
+ }
 firebase.initializeApp(config);
 
 export const auth = firebase.auth();
