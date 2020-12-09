@@ -21,11 +21,11 @@ class App extends React.Component{
   unsuscribeFromAuth = null
 
   componentDidMount(){
-    this.unsuscribeFromAuth = auth.onAuthStateChanged(async user => {
+    this.unsuscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       // if a user is signed in
       if (userAuth){
         // we get back userRef to use it to check if our db has updated 
-        const userRef = await createUserProfileDocument(user)
+        const userRef = await createUserProfileDocument(userAuth)
 
         // we get back a snapshot
         userRef.onSnapshot(snapShot => {
@@ -36,14 +36,16 @@ class App extends React.Component{
               ...snapShot.data()
             }
           })
+            // becuse setState is async if we want to log we need to pass 
+            // a second function as a param
+          // }, ()=>{console.log(this.state)})
         })
-        console.log(this.state)
+        
       }else{
         // if the user is loged out setState to null
         this.setState({currentUser: userAuth})
       }
 
-      // console.log(user)
     })
   }
 
