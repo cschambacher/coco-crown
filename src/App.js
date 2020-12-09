@@ -22,8 +22,27 @@ class App extends React.Component{
 
   componentDidMount(){
     this.unsuscribeFromAuth = auth.onAuthStateChanged(async user => {
-      // this.setState({currentUser: user})
-      createUserProfileDocument(user)
+      // if a user is signed in
+      if (userAuth){
+        // we get back userRef to use it to check if our db has updated 
+        const userRef = await createUserProfileDocument(user)
+
+        // we get back a snapshot
+        userRef.onSnapshot(snapShot => {
+          // data method gets us the properties of the object
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data()
+            }
+          })
+        })
+        console.log(this.state)
+      }else{
+        // if the user is loged out setState to null
+        this.setState({currentUser: userAuth})
+      }
+
       // console.log(user)
     })
   }
