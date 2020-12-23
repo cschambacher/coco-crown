@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom'
+import {connect} from 'react-redux';
 
 import HomePage from './pages/homepage/homepage.component';
 import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
@@ -9,18 +10,14 @@ import Header from './components/header/header.component'
 import './App.css';
 
 import {auth, createUserProfileDocument} from './firebase/firebase.utils';
+import {setCurrentUser}from './redux/user/user.actions'
 
 class App extends React.Component{
-  constructor(){
-    super();
 
-    this.state = {
-      // currentUser: null
-    }
-  }
   unsuscribeFromAuth = null
 
   componentDidMount(){
+    const {setCurrentUser} = this.props
     this.unsuscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       // if a user is signed in
       if (userAuth){
@@ -30,11 +27,9 @@ class App extends React.Component{
         // we get back a snapshot
         userRef.onSnapshot(snapShot => {
           // data method gets us the properties of the object
-          this.setState({
-            currentUser: {
-              id: snapShot.id,
-              ...snapShot.data()
-            }
+          setCurrentUser({
+            id: snapShot.id,
+            ...snapShot.data()
           })
             // becuse setState is async if we want to log we need to pass 
             // a second function as a param
@@ -43,7 +38,7 @@ class App extends React.Component{
         
       }else{
         // if the user is loged out setState to null
-        this.setState({currentUser: userAuth})
+        setCurrentUser(userAuth)
       }
 
     })
@@ -67,5 +62,7 @@ class App extends React.Component{
     
   }
 }
-
-export default App;
+const mdtp = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+})
+export default connect(null, mdtp)(App);
