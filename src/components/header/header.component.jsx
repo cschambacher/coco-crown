@@ -9,7 +9,7 @@ import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 
 import './header.styles.scss';
 
-const Header = ({currentUser}) => (
+const Header = ({currentUser, hidden}) => (
     <div className='header'>
          <Link to='/'>
             CoCo <Logo className='logo'/>
@@ -38,11 +38,15 @@ const Header = ({currentUser}) => (
          {/* if only way we want to show dropdown is in header we can keep the functionality in header
          but here we potentially might want to do that from another component too so we need to move 
          functionality outside of header and inside of our global redux state  */}
-         <CartDropdown/>
+         {
+             hidden ? null :
+            <CartDropdown/>
+         }
     </div>
 )
 // state = rootReducer
-const mstp = state => ({
-    currentUser: state.user.currentUser
+const mstp = ({ user: {currentUser}, cart: {hidden}}) => ({
+    currentUser,
+    hidden
 })
 export default connect(mstp)(Header);
