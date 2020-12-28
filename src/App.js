@@ -18,6 +18,7 @@ class App extends React.Component{
 
   componentDidMount(){
     const {setCurrentUser} = this.props
+
     this.unsuscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       // if a user is signed in
       if (userAuth){
@@ -68,7 +69,7 @@ class App extends React.Component{
   }
 }
 const mstp = ({user})=> ({
-  setCurrentUser: user.currentUser
+  currentUser: user.currentUser
 })
 const mdtp = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))
