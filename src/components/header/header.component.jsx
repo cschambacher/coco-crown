@@ -35,6 +35,9 @@ const Header = ({currentUser}) => (
             )}
              <CartIcon />
          </div>
+         {/* if only way we want to show dropdown is in header we can keep the functionality in header
+         but here we potentially might want to do that from another component too so we need to move 
+         functionality outside of header and inside of our global redux state  */}
          <CartDropdown/>
     </div>
 )
