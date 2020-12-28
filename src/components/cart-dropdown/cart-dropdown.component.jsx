@@ -12,4 +12,4 @@ const CartDropdown = () => (
     </div>
 )
 
-export default CartDropdown
+export default CartDropdown;
