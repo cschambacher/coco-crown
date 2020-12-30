@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { toggleCartHidden } from '../../redux/cart/cart.actions'
+import { selectCartItemsCount } from '../../redux/cart/cart.selectors'
 
 import { ReactComponent as ShoppingIcon } from '../../assets/shopping-bag.svg';
 
@@ -18,10 +19,9 @@ const mdtp = dispatch => ({
     toggleCartHidden: () => dispatch(toggleCartHidden())
 });
 
-const mstp = ({cart: {cartItems}})=>({
+const mstp = (state)=>({
     //itemCOunt is a selector: we pull all state and select some info
-    itemCount: cartItems.reduce(
-        (accQty, cartItem)=> accQty + cartItem.quantity, 0)
+    itemCount: selectCartItemsCount(state)
 })
 
 
