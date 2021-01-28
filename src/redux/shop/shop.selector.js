@@ -19,6 +19,8 @@ export const selectCollections = createSelector(
 export const selectCollection = memoize((collectionUrlParam) =>
   createSelector(
     [selectCollections],
+    //with find method worst case we call find for each element of the array. We could store this in an object instead same to collection_id_map and access through a property.
+    //this is called data normalization
     (collections) => collections.find(
                 collection => collection.id === COLLECTION_ID_MAP[collectionUrlParam]
                 )
