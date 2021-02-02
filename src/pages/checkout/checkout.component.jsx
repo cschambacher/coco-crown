@@ -37,6 +37,11 @@ const CheckoutPage = ({cartItems, total}) => (
             <span>TOTAL: ${total}</span>
         </div>
         <StripeCheckoutButton price={total}/>
+        <div className='test-warning'>
+            *Please use the following test credit card for payments*
+            <br/>
+            Number: 4242 4242 4242 4242 - Exp: 01/22 - CVC: 123
+        </div>
     </div>
 )
 const mstp = createStructuredSelector({
