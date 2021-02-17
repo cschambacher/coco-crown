@@ -22,7 +22,6 @@ class App extends React.Component{
 
   componentDidMount(){
     const {setCurrentUser} = this.props
-    console.log('yo', collectionsArray)
 
     this.unsuscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       // if a user is signed in
@@ -45,7 +44,7 @@ class App extends React.Component{
       }else{
         // if the user is loged out setState to null
         setCurrentUser(userAuth)
-        addCollectionAndDocuments('collections', collectionsArray.map(({title, items })=> ({title, items})));
+        // addCollectionAndDocuments('collections', collectionsArray.map(({title, items })=> ({title, items})));
       }
 
     })
