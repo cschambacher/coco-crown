@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {createStructuredSelector} from 'reselect';
 
-import Collections from './collections.component';
+import CollectionPage from './collections.component';
 
 import {selectIsCollectionsLoaded} from '../../redux/shop/shop.selector'; 
 import WithSpinner from '../../components/with-spinner/with-spinner.component';
@@ -10,14 +10,14 @@ import WithSpinner from '../../components/with-spinner/with-spinner.component';
 
 
 const mstp = createStructuredSelector({
-    isCollectionsLoaded: selectIsCollectionsLoaded
+    isCollectionsLoaded: (state)=> selectIsCollectionsLoaded(state)
     
 })
 
 // compose evaluates multiple curried functions right to left, so WithSpinner first then connect
-const CollectionsContainer = compose(
+const CollectionPageContainer = compose(
     connect(mstp),
     WithSpinner
-)(Collections)
+)(CollectionPage)
 
-export default CollectionsContainer;
+export default CollectionPageContainer;
