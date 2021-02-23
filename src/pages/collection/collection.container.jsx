@@ -10,7 +10,7 @@ import WithSpinner from '../../components/with-spinner/with-spinner.component';
 
 
 const mstp = createStructuredSelector({
-    isCollectionsLoaded: (state)=> selectIsCollectionsLoaded(state)
+    isCollectionsLoaded: (state)=> !selectIsCollectionsLoaded(state)
     
 })
 
