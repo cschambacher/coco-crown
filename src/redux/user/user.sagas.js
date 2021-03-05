@@ -46,6 +46,7 @@ export function* signInWithEmail({ payload: { email, password } }) {
   try {
     const { user } = yield auth.signInWithEmailAndPassword(email, password);
     // yield getSnapshotFromUserAuth(user);
+    const userRef = yield call(createUserProfileDocument, user);
     const userSnapshot = yield userRef.get();
     yield put(signInSuccess({id: userSnapshot.id, ...userSnapshot.data}))
   } catch (error) {
@@ -91,7 +92,7 @@ export function* onEmailSignInStart() {
 export function* userSagas() {
   yield all([
     call(onGoogleSignInStart),
-    // call(onEmailSignInStart),
+    call(onEmailSignInStart),
     // call(onCheckUserSession),
     // call(onSignOutStart)
   ]);
