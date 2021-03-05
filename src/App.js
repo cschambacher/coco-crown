@@ -13,7 +13,7 @@ import Header from './components/header/header.component'
 import './App.css';
 
 import {auth, createUserProfileDocument} from './firebase/firebase.utils';
-import {setCurrentUser}from './redux/user/user.actions'
+
 import { selectCurrentUser } from './redux/user/user.selector';
 
 class App extends React.Component{
@@ -21,7 +21,7 @@ class App extends React.Component{
   unsuscribeFromAuth = null
 
   componentDidMount(){
-    const {setCurrentUser} = this.props
+    
 
     // this.unsuscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
     //   // if a user is signed in
@@ -77,7 +77,5 @@ class App extends React.Component{
 const mstp = createStructuredSelector({
   currentUser: selectCurrentUser
 })
-const mdtp = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
-})
-export default connect(mstp, mdtp)(App);
+
+export default connect(mstp)(App);
