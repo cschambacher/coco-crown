@@ -15,39 +15,18 @@ import './App.css';
 import {auth, createUserProfileDocument} from './firebase/firebase.utils';
 
 import { selectCurrentUser } from './redux/user/user.selector';
+import {checkUserSession} from './redux/user/user.actions'
 
 class App extends React.Component{
 
   unsuscribeFromAuth = null
 
   componentDidMount(){
+    const { checkUserSession } = this.props;
+
+    checkUserSession();
+
     
-
-    // this.unsuscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-    //   // if a user is signed in
-    //   if (userAuth){
-    //     // we get back userRef to use it to check if our db has updated 
-    //     const userRef = await createUserProfileDocument(userAuth)
-
-    //     // we get back a snapshot
-    //     userRef.onSnapshot(snapShot => {
-    //       // data method gets us the properties of the object
-    //       setCurrentUser({
-    //         id: snapShot.id,
-    //         ...snapShot.data()
-    //       })
-    //         // becuse setState is async if we want to log we need to pass 
-    //         // a second function as a param
-    //       // }, ()=>{console.log(this.state)})
-    //     })
-        
-    //   }else{
-    //     // if the user is loged out setState to null
-    //     setCurrentUser(userAuth)
-    //     // addCollectionAndDocuments('collections', collectionsArray.map(({title, items })=> ({title, items})));
-    //   }
-
-    // })
   }
 
   componentWillUnmount(){
@@ -77,5 +56,9 @@ class App extends React.Component{
 const mstp = createStructuredSelector({
   currentUser: selectCurrentUser
 })
+const mdtp = dispatch => ({
+  checkUserSession: () => dispatch(checkUserSession())
+})
 
-export default connect(mstp)(App);
+
+export default connect(mstp, mdtp)(App);
