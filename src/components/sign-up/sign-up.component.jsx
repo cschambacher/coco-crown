@@ -25,23 +25,11 @@ class SignUp extends React.Component {
         event.preventDefault()
         const { signUpStart} = this.props
         const {displayName, email, password, confirmPassword} = this.state;
-        signUpStart(displayName, email, password, confirmPassword)
-        // if (password !== confirmPassword){
-        //     alert("passwords don't match");
-        //     return
-        // }
-        // try {
-        //     const {user} = await auth.createUserWithEmailAndPassword(email, password);
-        //     await createUserProfileDocument(user, {displayName})
-        //     this.setState({
-        //         displayName: '',
-        //         email: '',
-        //         password: '',
-        //         confirmPassword: ''
-        //     })
-        // } catch (error) {
-        //     console.error(error)
-        // }
+        if (password !== confirmPassword){
+            alert("passwords don't match");
+            return
+        }
+        signUpStart({displayName, email, password})
     }
     handleChange = event =>{
         const {name, value} = event.target;
@@ -97,6 +85,6 @@ class SignUp extends React.Component {
 
 }
 const mdtp = dispatch => ({
-    signUpStart: (displayName, email, password, confirmPassword )=>dispatch(signUpStart({displayName, email, password, confirmPassword}))
+    signUpStart: (userCredentials)=>dispatch(signUpStart(userCredentials))
 })
 export default connect(null, mdtp)(SignUp)

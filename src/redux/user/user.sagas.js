@@ -70,39 +70,18 @@ export function* signOut() {
   }
 }
 
-export function* signUp({ payload: { displayName, email, password, confirmPassword } }) {
-    
-    // try {
-    //     const {user} = await auth.createUserWithEmailAndPassword(email, password);
-    //     await createUserProfileDocument(user, {displayName})
-    //     this.setState({
-    //         displayName: '',
-    //         email: '',
-    //         password: '',
-    //         confirmPassword: ''
-    //     })
-    // } catch (error) {
-    //     console.error(error)
-    // }
+export function* signUp({ payload: { email, password, displayName } }) {
     try {
-        console.log("saga", password, confirmPassword)
-        if (password !== confirmPassword){
-            alert("passwords don't match");
-            return
-        }
-        const { user } = yield auth.createUserWithEmailAndPassword(email, password);
-        const userRef = yield call(
-            createUserProfileDocument,
-            user,
-            {displayName}
-          );
-        const userSnapshot = yield userRef.get();
-        yield put(signUpSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
+      const { user } = yield auth.createUserWithEmailAndPassword(email, password);
+      yield put(signUpSuccess({ user, additionalData: { displayName } }));
     } catch (error) {
       yield put(signUpFailure(error));
     }
-  }
+}
 
+export function* signInAfterSignUp({payload: {user, additionalData}}){
+    yield getSnapshotFromUserAuth(user, additionalData)
+}
 export function* onGoogleSignInStart() {
   yield takeLatest(UserActionTypes.GOOGLE_SIGN_IN_START, signInWithGoogle);
 }
@@ -121,6 +100,9 @@ export function* onSignOutStart() {
 export function* onSignUpStart() {
   yield takeLatest(UserActionTypes.SIGN_UP_START, signUp);
 }
+export function* onSignUpSuccess() {
+  yield takeLatest(UserActionTypes.SIGN_UP_SUCCESS, signInAfterSignUp);
+}
 
 export function* userSagas() {
   yield all([
@@ -128,6 +110,7 @@ export function* userSagas() {
     call(onEmailSignInStart),
     call(onCheckUserSession),
     call(onSignOutStart),
-    call(onSignUpStart)
+    call(onSignUpStart),
+    call(onSignUpSuccess)
   ]);
 }

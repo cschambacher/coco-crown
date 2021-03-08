@@ -23,6 +23,8 @@ const config = {
     const snapShot = await userRef.get();
     if (!snapShot.exists){
         const {displayName, email} = userAuth;
+        
+        console.log('set', displayName)
         const createdAt = new Date();
         try {
             await userRef.set({
