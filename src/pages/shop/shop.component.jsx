@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Route} from 'react-router-dom';
 
 import {connect} from 'react-redux'
@@ -12,23 +12,18 @@ import WithSpinner from '../../components/with-spinner/with-spinner.component'
 
 
 
-class ShopPage extends React.Component {
+const ShopPage = ({match, fetchCollectionsStart}) => {
+    useEffect(()=>{
+        fetchCollectionsStart();
+    }, [fetchCollectionsStart]);
+    
+    return (
+    <div className='shop-page'>
+        <Route exact path={`${match.path}`} component={CollectionsOverviewContainer}/>
+        <Route path={`${match.path}/:collectionId`} component={CollectionPageContainer}/>
+    </div>   
+    )
 
-    componentDidMount(){
-        const {fetchCollectionsStart} = this.props;
-        fetchCollectionsStart()
-       
-    }
-    render(){
-        const {match} = this.props
-       
-        return (
-        <div className='shop-page'>
-            <Route exact path={`${match.path}`} component={CollectionsOverviewContainer}/>
-            <Route path={`${match.path}/:collectionId`} component={CollectionPageContainer}/>
-        </div>   
-        )
-    }
 }
 
 
