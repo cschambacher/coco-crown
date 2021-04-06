@@ -10,9 +10,10 @@ import CheckoutPage from './pages/checkout/checkout.component';
 
 import Header from './components/header/header.component'
 
-import './App.css';
 
 import {auth, createUserProfileDocument} from './firebase/firebase.utils';
+
+import {GlobalStyle} from './global.styles'
 
 import { selectCurrentUser } from './redux/user/user.selector';
 import {checkUserSession} from './redux/user/user.actions'
@@ -25,6 +26,7 @@ const App = ({ checkUserSession, currentUser }) => {
 
   return (
     <div>
+      <GlobalStyle/>
       <Header />
       <Switch>
         <Route exact path='/' component={HomePage}/>
